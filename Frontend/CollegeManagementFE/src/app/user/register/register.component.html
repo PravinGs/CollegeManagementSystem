@@ -1,0 +1,337 @@
+<!-- <body>
+<div class="container">
+    <div [hidden]="submitted">
+      <h1>Student Registration Form</h1> 
+      <form (ngSubmit)="onSubmit()" #studentForm="ngForm" class="form">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="name" appLabel >Name</label>
+              <input type="text" class="form-control" id="name"
+                    required
+                    [(ngModel)]="model.name" name="name"
+                    #name="ngModel">
+              <div [hidden]="name.valid || name.pristine"
+                  class="alert alert-danger">
+                Name is required
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="registerNo">Register No</label>
+              <input type="text" class="form-control" id="registerNo"
+                    [(ngModel)]="model.registerNo" name="registerNo" required >
+            </div>
+          </div>         
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="fatherName">Father </label>
+              <input type="text" class="form-control" id="fatherName"
+                    [(ngModel)]="model.fatherName" name="fatherName" #fatherName="ngModel" required>
+              <div [hidden]="fatherName.valid || fatherName.pristine" class="alert alert-danger">
+                Father Name is Required
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label for="birthDate">Birth Date </label>
+              <input type="date" class="form-control" id="birthDate"
+                      [(ngModel)]="model.birthDate" name="birthDate" #date="ngModel" required >
+              <div [hidden]="date.valid || date.pristine" class="alert alert-danger">
+                Birth Date is Required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="email">Email </label>
+              <input type="text" class="form-control" id="email"
+                     [(ngModel)]="model.email" name="email" #email="ngModel" required >
+              <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                Email is Required
+              </div>
+          </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label for="mobile">Mobile </label>
+              <input type="text" class="form-control" id="mobile"
+                     [(ngModel)]="model.mobile" name="mobile" #mobile="ngModel" required >
+              <div [hidden]="mobile.valid || mobile.pristine" class="alert alert-danger">
+                Mobile is Required
+              </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select class="form-control" id="gender"
+                      required
+                      [(ngModel)]="model.gender" name="gender"
+                      #gender="ngModel" required >
+                <option *ngFor="let pow of genders" [value]="pow">{{pow}}</option>
+              </select>
+              <div [hidden]="gender.valid || gender.pristine" class="alert alert-danger">
+                Gender is required
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="course">Course </label>
+              <input type="text" class="form-control" id="course"
+                     [(ngModel)]="model.course" name="course" #course="ngModel" required >
+              <div [hidden]="course.valid || course.pristine" class="alert alert-danger">
+                Course is Required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="year">Year </label>
+              <input type="number" class="form-control" id="year"
+                     [(ngModel)]="model.year" name="year" #year="ngModel" required >
+              <div [hidden]="year.valid || year.pristine" class="alert alert-danger">
+                Year is Required
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label for="nativePlace">Place </label>
+              <input type="text" class="form-control" id="nativePlace"
+                     [(ngModel)]="model.nativePlace" name="nativePlace" #nativePlace="ngModel" required >
+              <div [hidden]="nativePlace.valid || nativePlace.pristine" class="alert alert-danger">
+                  nativePlace is Required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="nativePlace">Photo </label>
+              <input type="file" class="form-control" id="photo"
+                     [(ngModel)]="model.photo" name="photo" #photo="ngModel" required >
+              <div [hidden]=" photo.valid || photo.pristine" class="alert alert-danger">
+                  Photo is Required
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit"  id= "submit" class="btn btn-success" [disabled]="!studentForm.form.valid">Submit</button>
+        
+        <button type="button"  class="btn btn-default" (click)="newStudent(); studentForm.reset()">New Student</button>
+      </form>
+    </div> -->
+  
+    <!-- <div [hidden]="!submitted">
+      <h2>You submitted the following:</h2>
+      <div class="row">
+        <div class="col-xs-3">Name</div>
+        <div class="col-xs-9">{{ model.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Register No</div>
+        <div class="col-xs-9">{{ model.registerNo }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Father</div>
+        <div class="col-xs-9">{{ model.fatherName }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Birth Date</div>
+        <div class="col-xs-9">{{ model.birthDate }}</div>
+      </div><div class="row">
+        <div class="col-xs-3">Email</div>
+        <div class="col-xs-9">{{ model.email }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Mobile</div>
+        <div class="col-xs-9">{{ model.mobile }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Gender</div>
+        <div class="col-xs-9">{{ model.gender }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Course</div>
+        <div class="col-xs-9">{{ model.course }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Year</div>
+        <div class="col-xs-9">{{ model.year }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Place</div>
+        <div class="col-xs-9">{{ model.nativePlace }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Photo</div>
+        <div class="col-xs-9">{{ model.photo }}</div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
+    </div> -->
+  <!-- </div>    -->
+<!-- </body> -->
+
+<div class="col-mb-12">
+  <div class="card card-container">
+    <img
+      id="profile-img"
+      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+      class="profile-img-card"
+    />
+    <form *ngIf = "!isSuccessful" name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate >
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" [(ngModel)] = "model.name" required #name="ngModel">
+            <div class="alert alert-danger" *ngIf="f.submitted && name.invalid">
+              <div *ngIf = "name.errors"> Name is Required </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="regNo">Register No</label>
+            <input type="text" class="form-control" name="regNo" [(ngModel)] = "model.registerNo" required #regNo="ngModel">
+            <div class="alert alert-danger" *ngIf="f.submitted && regNo.invalid">
+              <div *ngIf = "regNo.errors"> Register Number is Required </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="father">Father Name</label>
+            <input type="text" class="form-control" name="father" [(ngModel)] = "model.fatherName" required #father="ngModel">
+            <div class="alert alert-danger" *ngIf="f.submitted && father.invalid">
+              <div *ngIf = "father.errors"> Father Name is Required </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="birth">Birth Date</label>
+            <input type="date" class="form-control" name="birth" [(ngModel)] = "model.birthDate" required #birth="ngModel">
+            <div class="alert alert-danger" *ngIf="f.submitted && birth.invalid">
+              <div *ngIf = "birth.errors"> Birth Date is Required </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" name="email" [(ngModel)] = "model.email" required #email="ngModel">
+            <div class="alert alert-danger" *ngIf="f.submitted && email.invalid">
+              <div *ngIf = "email.errors"> Email is Required </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select class="form-control" id="gender"
+                    required
+                    [(ngModel)]="model.gender" name="gender"
+                    #gender="ngModel" required >
+              <option *ngFor="let pow of genders" [value]="pow">{{pow}}</option>
+            </select>
+            <div *ngIf="f.submitted && gender.invalid" class="alert alert-danger">
+              Gender is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="course">Course </label>
+            <input type="text" class="form-control" id="course"
+                   [(ngModel)]="model.course" name="course" #course="ngModel" required >
+            <div *ngIf="f.submitted && course.invalid" class="alert alert-danger">
+              Course is Required
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="year">Year </label>
+            <input type="number" class="form-control" id="year"
+                   [(ngModel)]="model.year" name="year" #year="ngModel" required >
+            <div *ngIf="f.submitted && year.invalid" class="alert alert-danger">
+              Year is Required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="nativePlace">Place </label>
+            <input type="text" class="form-control" id="nativePlace"
+                   [(ngModel)]="model.nativePlace" name="nativePlace" #nativePlace="ngModel" required >
+            <div *ngIf="f.submitted && nativePlace.invalid" class="alert alert-danger">
+                nativePlace is Required
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="mobile">Mobile </label>
+            <input type="text" class="form-control" id="mobile"
+                   [(ngModel)]="model.mobile" name="mobile" #mobile="ngModel" required >
+            <div *ngIf="f.submitted && mobile.invalid" class="alert alert-danger">
+              Mobile is Required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="nativePlace">Photo </label>
+            <input type="file" class="form-control" id="photo"
+                   [(ngModel)]="model.photo" name="photo" #photo="ngModel" required >
+            <div *ngIf="f.submitted && photo.invalid" class="alert alert-danger">
+                Photo is Required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Add Student</button>
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+          Signup failed!<br />{{ errorMessage }}
+        </div>
+      </div>
+    </form>
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Your registration is successful!
+    </div>
+  </div>
+</div>

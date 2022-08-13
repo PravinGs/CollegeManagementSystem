@@ -1,5 +1,6 @@
 package com.example.CollegeManagement.Service;
 
+import com.example.CollegeManagement.Dto.Message;
 import com.example.CollegeManagement.Entity.Course;
 import com.example.CollegeManagement.Repository.CourseRepository;
 import com.example.CollegeManagement.Repository.StudentRepository;
@@ -19,40 +20,34 @@ public class CourseServiceImpl implements CourseService{
     @Autowired
     private StudentRepository studentRepository;
     @Override
-    public ResponseEntity<HttpResponse> register(Course course) {
-        if (course != null) {
-            courseRepository.save(course);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> register(Course course) {
+        courseRepository.save(course);
+        return ResponseEntity.ok().body(new Message("Course Added Successfully..."));
     }
     @Override
-    public ResponseEntity<HttpResponse> update(Long id, Course course) {
-        if (courseRepository.existsById(id)) {
-            Course c = courseRepository.findById(id).get();
-            if (course.getStreamId() != null && "".equals(course.getStreamId())) c.setStreamId(course.getStreamId());
-
+    public ResponseEntity<?> update(Long id, Course course) {
+        Course c = courseRepository.findById(id).get();
+        if (course.getStreamId() != null && "".equals(course.getStreamId())) {
+            c.setStreamId(course.getStreamId());
             courseRepository.save(c);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok().body(new Message("Course Updated Successfully."));
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.badRequest().body(new Message("Check your details names is empty"));
     }
     @Override
-    public ResponseEntity<HttpResponse> delete(Long id) {
-        if (courseRepository.existsById(id)) {
-            courseRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> delete(Long id) {
+        courseRepository.deleteById(id);
+        return ResponseEntity.ok().body("Course Removed Successfully..");
     }
-//    @Override
-//    public ResponseEntity<?> getStream(String stream) {
-//        Course course = courseRepository.findByStream(stream.toUpperCase());
-//        if (course == null) {
-//            return ResponseEntity.badRequest().body("No stream available with this name");
-//        }
-//        return ResponseEntity.ok().body(course);
-//    }
+
+    @Override
+    public boolean existsByStreamId(String streamId) {
+        return courseRepository.existsByStreamId(streamId);
+    }
+    @Override
+    public boolean existsById(Long id) {
+        return courseRepository.existsById(id);
+    }
 
 
 }

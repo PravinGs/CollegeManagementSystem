@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationEvent;
 import java.util.List;
 
 public class FeesAlertEvent extends ApplicationEvent {
-    private List<String> emails;
+    private final List<String> emails;
     public FeesAlertEvent(Object source, List<String> emails) {
         super(source);
         this.emails = emails;

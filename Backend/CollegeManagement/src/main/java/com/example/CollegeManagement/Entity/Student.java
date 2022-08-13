@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 
+@SuppressWarnings("com.haulmont.jpb.LombokDataInspection")
 @Entity
 @Data
 @NoArgsConstructor

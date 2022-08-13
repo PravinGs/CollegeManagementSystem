@@ -1,10 +1,7 @@
 package com.example.CollegeManagement.Controller;
 
 import com.example.CollegeManagement.Config.CustomStudentAuthenticationProvider;
-import com.example.CollegeManagement.Dto.JwtResponse;
-import com.example.CollegeManagement.Dto.LoginDto;
-import com.example.CollegeManagement.Dto.Message;
-import com.example.CollegeManagement.Dto.StudentDto;
+import com.example.CollegeManagement.Dto.*;
 import com.example.CollegeManagement.Entity.Student;
 import com.example.CollegeManagement.Service.StudentService;
 import com.example.CollegeManagement.security.JwtUtils;
@@ -12,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +19,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
-@RestControllerAdvice
 @CrossOrigin(origins = "*", exposedHeaders = "**")
 @Slf4j
 public class StudentController {
@@ -63,13 +61,13 @@ public class StudentController {
         return httpResponseResponseEntity;
     }
     @GetMapping("/logout")
-    public ResponseEntity<HttpResponse> logout(){
+    public ResponseEntity<?> logout(){
         System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             SecurityContextHolder.clearContext();
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok().body(new Message("You have Logged out successfully..."));
         }
-        return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        return ResponseEntity.badRequest().body(new Message("You already in the logout session..."));
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody StudentDto dto, @PathVariable("id") Long id) {
@@ -94,6 +92,10 @@ public class StudentController {
     @GetMapping("/fees/{id}")
     public ResponseEntity<?> getFeesStructure(@PathVariable("id") Long id) {
         return studentService.getFeesStructure(id);
+    }
+    @PostMapping("/payment")
+    public ResponseEntity<?> payment( @RequestBody PaymentDto dto) {
+        return studentService.payment(dto);
     }
 
 

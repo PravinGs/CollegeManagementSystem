@@ -1,15 +1,11 @@
 package com.example.CollegeManagement.Service;
 
 import com.example.CollegeManagement.Dto.ExamDto;
+import com.example.CollegeManagement.Dto.MarkDto;
 import com.example.CollegeManagement.Dto.Message;
 import com.example.CollegeManagement.Dto.SubjectDto;
-import com.example.CollegeManagement.Entity.Course;
-import com.example.CollegeManagement.Entity.Exam;
-import com.example.CollegeManagement.Entity.Subject;
-import com.example.CollegeManagement.Repository.CourseRepository;
-import com.example.CollegeManagement.Repository.ExamRepository;
-import com.example.CollegeManagement.Repository.StudentRepository;
-import com.example.CollegeManagement.Repository.SubjectRepository;
+import com.example.CollegeManagement.Entity.*;
+import com.example.CollegeManagement.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +23,8 @@ public class StaffServiceImpl implements StaffService{
     private StudentRepository studentRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private MarkRepository markRepository;
     @Override
     public ResponseEntity<?> addSubject(SubjectDto dto) {
         Course course = courseRepository.findByStreamId(dto.getCourseId());
@@ -60,5 +58,24 @@ public class StaffServiceImpl implements StaffService{
     @Override
     public List<String> getAllStudentsByStream(String course) {
         return studentRepository.findEmailByCourse(course);
+    }
+
+    @Override
+    public ResponseEntity<?> addMark(MarkDto dto) {
+        if (!studentRepository.existsById(dto.getStudentId())) return ResponseEntity.badRequest().body(new Message("Invalid student id"));
+        if (!examRepository.existsById(dto.getExamId())) return ResponseEntity.badRequest().body(new Message("No exam has been published with this id"));
+        Student student = studentRepository.findById(dto.getStudentId()).get();
+        Exam exam = examRepository.findById(dto.getExamId()).get();
+        Mark mark = new Mark();
+        mark.setExam(exam);
+        mark.setStudent(student);
+        mark.setMark1(dto.getMark1());
+        mark.setMark2(dto.getMark2());
+        mark.setMark3(dto.getMark3());
+        mark.setMark4(dto.getMark4());
+        mark.setMark5(dto.getMark5());
+        mark.setMark6(dto.getMark6());
+        markRepository.save(mark);
+        return ResponseEntity.ok().body(new Message("Mark Updated.."));
     }
 }

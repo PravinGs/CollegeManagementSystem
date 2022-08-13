@@ -8,10 +8,9 @@ import java.net.http.HttpResponse;
 
 @Service
 public interface CourseService {
-    ResponseEntity<HttpResponse> register(Course course);
-    ResponseEntity<HttpResponse> update(Long id, Course course);
-    ResponseEntity<HttpResponse> delete(Long id);
-//    ResponseEntity<?> getStream(String stream);
-
-
+    ResponseEntity<?> register(Course course);
+    ResponseEntity<?> update(Long id, Course course);
+    ResponseEntity<?> delete(Long id);
+    boolean existsByStreamId(String streamId);
+    boolean existsById(Long id);
 }

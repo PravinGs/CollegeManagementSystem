@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
+@SuppressWarnings("com.haulmont.jpb.LombokDataInspection")
 @Entity
 @Data
 @AllArgsConstructor
@@ -34,5 +35,4 @@ public class Mark {
     private int mark4;
     private int mark5;
     private int mark6;
-    private Date date;
 }

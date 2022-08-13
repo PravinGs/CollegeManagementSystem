@@ -1,5 +1,6 @@
 package com.example.CollegeManagement.Service;
 
+import com.example.CollegeManagement.Dto.PaymentDto;
 import com.example.CollegeManagement.Dto.StudentDto;
 import com.example.CollegeManagement.Entity.Student;
 import org.springframework.http.ResponseEntity;
@@ -22,4 +23,6 @@ public interface StudentService extends UserDetailsService {
     ResponseEntity<?> getStudentsByStream(String stream);
 
     ResponseEntity<?> getFeesStructure(Long id);
+
+    ResponseEntity<?> payment(PaymentDto dto);
 }

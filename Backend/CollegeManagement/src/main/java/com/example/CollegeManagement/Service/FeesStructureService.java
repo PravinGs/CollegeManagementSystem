@@ -9,9 +9,7 @@ import java.net.http.HttpResponse;
 
 @Service
 public interface FeesStructureService {
-    ResponseEntity<HttpResponse> register(FeesStructureDto dto);
-
-    ResponseEntity<HttpResponse> update(Long id, FeesStructureDto dto);
-
-    ResponseEntity<HttpResponse> payment(PaymentDto dto);
+    ResponseEntity<?> register(FeesStructureDto dto);
+    ResponseEntity<?> update(Long id, FeesStructureDto dto);
+//    void payment(PaymentDto dto);
 }

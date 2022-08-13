@@ -6,8 +6,8 @@ import org.springframework.context.ApplicationEvent;
 import java.util.List;
 
 public class ExamSendEvent extends ApplicationEvent {
-    private List<String> students;
-    private Exam exam;
+    private final List<String> students;
+    private final Exam exam;
     public ExamSendEvent(Exam exam, List<String> students) {
         super(exam);
         this.exam = exam;

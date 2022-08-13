@@ -1,6 +1,7 @@
 package com.example.CollegeManagement.Service;
 
 import com.example.CollegeManagement.Dto.FeesStructureDto;
+import com.example.CollegeManagement.Dto.Message;
 import com.example.CollegeManagement.Dto.PaymentDto;
 import com.example.CollegeManagement.Entity.FeesStructure;
 import com.example.CollegeManagement.Entity.Log;
@@ -28,21 +29,11 @@ public class FeesStructureServiceImpl implements FeesStructureService{
     @Autowired
     private LogRepository logRepository;
     @Override
-    public ResponseEntity<HttpResponse> register(FeesStructureDto dto) {
+    public ResponseEntity<?> register(FeesStructureDto dto) {
         Optional<Student> s = studentRepository.findById(dto.getId());
         Log log = new Log();
         if (s.isPresent()) {
             Student st = s.get();
-            FeesStructure fs = new FeesStructure();
-            fs.setStudent(s.get());
-            fs.setTotalFees(dto.getTotalFees());
-            fs.setTuitionFees(dto.getTuitionFees());
-            fs.setHostelFees(dto.getHostelFees());
-            fs.setOtherFees(dto.getOtherFees());
-            fs.setScholarShip(dto.isScholarShip());
-            fs.setScholarShipFees(dto.getScholarShipFees());
-            fs.setDate(new Date());
-            studentRepository.save(st);
             // Log Table Creation / Updation
             log.setStudent(s.get());
             log.setTotalFees(dto.getTotalFees());
@@ -51,38 +42,40 @@ public class FeesStructureServiceImpl implements FeesStructureService{
             log.setTuitionFees(dto.getTuitionFees());
             log.setScholarFees(dto.getScholarShipFees());
             logRepository.save(log);
-            feesStructureRepository.save(fs);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok().body(new Message("Fees Structure updated.."));
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.badRequest().body(new Message("No student exists with this id"));
     }
     @Override
-    public ResponseEntity<HttpResponse> update(Long id, FeesStructureDto dto) {
+    public ResponseEntity<?> update(Long id, FeesStructureDto dto) {
         Optional<Student> s = studentRepository.findById(dto.getId());
-        Optional<FeesStructure> f = feesStructureRepository.findById(id);
+        Optional<Log> f = logRepository.findById(id);
         if (s.isPresent() && f.isPresent()) {
-            FeesStructure fs = f.get();
+            Log fs = f.get();
             if (dto.getTuitionFees() > -1) fs.setTuitionFees(dto.getTuitionFees());
             if (dto.getHostelFees() > -1) fs.setHostelFees(dto.getHostelFees());
             if (dto.getOtherFees() > -1) fs.setOtherFees(dto.getOtherFees());
-            if (dto.getScholarShipFees() > -1) fs.setScholarShipFees(dto.getScholarShipFees());
+            if (dto.getScholarShipFees() > -1) fs.setScholarFees(dto.getScholarShipFees());
             if (dto.getTotalFees() > -1) fs.setTotalFees(dto.getTotalFees());
-            feesStructureRepository.save(fs);
-            return new ResponseEntity<>(HttpStatus.OK);
+            logRepository.save(fs);
+            return ResponseEntity.ok().body(new Message("Fees details updates"));
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.badRequest().body(new Message("Check the details no student exists with this id"));
     }
-    @Override
-    public ResponseEntity<HttpResponse> payment(PaymentDto dto) {
-        Optional<Student> s = studentRepository.findById(dto.getStudentId());
-        if (s.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        FeesStructure f = feesStructureRepository.findByStudent(s.get());
-        if (dto.getOtherFees() > 0) f.setOtherFees(f.getOtherFees() - dto.getOtherFees());
-        if (dto.getHostelFees() > 0) f.setHostelFees(f.getHostelFees() - dto.getHostelFees());
-        if (dto.getTuitionFees() > 0) f.setTuitionFees(f.getTuitionFees() - dto.getTuitionFees());
-        feesStructureRepository.save(f);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @Override
+//    public void payment(PaymentDto dto) {
+//        Optional<Student> s = studentRepository.findById(dto.getStudentId());
+//        if (s.isEmpty()) {
+//            new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            return;
+//        }
+//        FeesStructure f = feesStructureRepository.findByStudent(s.get());
+//        if (dto.getOtherFees() > 0) f.setOtherFees(f.getOtherFees() - dto.getOtherFees());
+//        if (dto.getHostelFees() > 0) f.setHostelFees(f.getHostelFees() - dto.getHostelFees());
+//        if (dto.getTuitionFees() > 0) f.setTuitionFees(f.getTuitionFees() - dto.getTuitionFees());
+//        feesStructureRepository.save(f);
+//        new ResponseEntity<>(HttpStatus.OK);
+//    }
 }
 
 

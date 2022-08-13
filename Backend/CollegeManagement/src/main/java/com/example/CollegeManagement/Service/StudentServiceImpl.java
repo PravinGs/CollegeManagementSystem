@@ -2,8 +2,11 @@ package com.example.CollegeManagement.Service;
 
 import com.example.CollegeManagement.Dto.FeesResponse;
 import com.example.CollegeManagement.Dto.Message;
+import com.example.CollegeManagement.Dto.PaymentDto;
 import com.example.CollegeManagement.Dto.StudentDto;
+import com.example.CollegeManagement.Email.EmailSenderService;
 import com.example.CollegeManagement.Entity.Course;
+import com.example.CollegeManagement.Entity.FeesStructure;
 import com.example.CollegeManagement.Entity.Log;
 import com.example.CollegeManagement.Entity.Student;
 import com.example.CollegeManagement.Repository.*;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -36,6 +40,8 @@ public class StudentServiceImpl implements StudentService {
     private LogRepository logRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private EmailSenderService emailSenderService;
     @Override
     public ResponseEntity<?> register(StudentDto dto) {
         Student student = new Student();
@@ -143,6 +149,37 @@ public class StudentServiceImpl implements StudentService {
         }
         Log log = logRepository.findByStudent(student.get());
         return ResponseEntity.ok().body(new FeesResponse(log.getTuitionFees(), log.getScholarFees(), log.getHostelFees(), log.getOtherFees(), log.getTotalFees()));
+    }
+
+    @Override
+    public ResponseEntity<?> payment(PaymentDto dto) {
+        Optional<Student> s = studentRepository.findById(dto.getStudentId());
+        if (s.isEmpty()) return ResponseEntity.badRequest().body(new Message(("Invalid Student id..")));
+        Log structure = logRepository.findByStudent(s.get());
+        FeesStructure fs = new FeesStructure();
+        if (structure == null) return ResponseEntity.ok().body(new Message("Your Fees structure not yet published, Contact your class in charge"));
+        if (dto.getTuitionFees() > 0 && structure.getTuitionFees() >= dto.getTuitionFees()) {
+//            structure.setTotalFees(Math.abs(structure.getTuitionFees() - dto.getTuitionFees()));
+            fs.setTuitionFees(dto.getTuitionFees());
+        } else if (structure.getTuitionFees() < dto.getTuitionFees()) return ResponseEntity.ok().body(new Message("Check Your Fees details before Payment , Your remain tuition Fee only : " + structure.getTuitionFees()));
+        if (dto.getHostelFees() > 0 && structure.getHostelFees() >= dto.getHostelFees()) {
+//            structure.setHostelFees(Math.abs(structure.getHostelFees() - dto.getHostelFees()));
+            fs.setHostelFees(dto.getHostelFees());
+        }
+        else if (structure.getHostelFees() < dto.getHostelFees())return ResponseEntity.ok().body(new Message("Check Your Fees details before Payment, Your remain hostel fees only :  " + structure.getHostelFees()));
+        if (dto.getOtherFees() > 0 && structure.getOtherFees() >= dto.getOtherFees()) {
+//            structure.setOtherFees(Math.abs(structure.getOtherFees()) - dto.getOtherFees());
+            fs.setOtherFees(dto.getOtherFees());
+        } else if (structure.getOtherFees() < dto.getOtherFees()) return ResponseEntity.ok().body(new Message("Check Your Fees details before Payment, Your remain other fees only :  " + structure.getOtherFees()));
+        fs.setStudent(s.get());
+        fs.setDate(new Date());
+        feesStructureRepository.save(fs);
+        sendReceipt(s.get(), dto);
+        return ResponseEntity.ok().body(new Message("Payment Successful.."));
+    }
+
+    private void sendReceipt(Student student, PaymentDto dto) {
+        emailSenderService.sendSimpleEmail(student.getEmail(), dto.toString(), "Payment Successful");
     }
 
     @Override

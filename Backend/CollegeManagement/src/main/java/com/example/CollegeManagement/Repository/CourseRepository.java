@@ -12,5 +12,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     )
     Course findByStreamId(@Param("stream") String stream);
 
-
+    boolean existsByStreamId(String streamId);
 }

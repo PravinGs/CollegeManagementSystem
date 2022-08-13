@@ -1,9 +1,6 @@
 package com.example.CollegeManagement.Controller;
 
-import com.example.CollegeManagement.Dto.AttendanceDto;
-import com.example.CollegeManagement.Dto.ExamDto;
-import com.example.CollegeManagement.Dto.Message;
-import com.example.CollegeManagement.Dto.SubjectDto;
+import com.example.CollegeManagement.Dto.*;
 import com.example.CollegeManagement.Entity.Exam;
 import com.example.CollegeManagement.Event.ExamSendEvent;
 import com.example.CollegeManagement.Repository.ExamRepository;
@@ -69,6 +66,10 @@ public class StaffController {
         List<String> students = staffService.getAllStudentsByStream(exam.get().getCourse().getStreamId());
         publisher.publishEvent(new ExamSendEvent(exam.get(), students));
         return ResponseEntity.ok().body("Success...");
+    }
+    @PostMapping("mark/add")
+    public ResponseEntity<?> addMark(@RequestBody MarkDto dto) {
+        return staffService.addMark(dto);
     }
 
 }

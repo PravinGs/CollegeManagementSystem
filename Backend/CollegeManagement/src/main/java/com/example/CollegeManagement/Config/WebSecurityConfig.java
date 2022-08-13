@@ -35,6 +35,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("**/login").permitAll()
                 .antMatchers("/student/register").hasAnyAuthority("ROLE_STAFF", "ROLE_ACCOUNTANT")
+                .antMatchers("/payment").hasAuthority("ROLE_STUDENT")
                 .antMatchers("/accountant/register").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/").permitAll()
                 .antMatchers("/student/delete/**").hasAnyAuthority("ROLE_ACCOUNTANT", "ROLE_STAFF")

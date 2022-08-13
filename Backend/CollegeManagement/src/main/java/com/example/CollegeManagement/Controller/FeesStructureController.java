@@ -16,26 +16,25 @@ import java.net.http.HttpResponse;
 public class FeesStructureController {
     @Autowired
     private FeesStructureService feesStructureService;
-
     @PostMapping("/register")
-    public ResponseEntity<HttpResponse> register(@RequestBody FeesStructureDto dto) {
+    public ResponseEntity<?> register(@RequestBody FeesStructureDto dto) {
         return feesStructureService.register(dto);
     }
-    @PostMapping("/payment")
-    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
-    public ResponseEntity<HttpResponse> payment(@RequestBody PaymentDto dto) {
-        ResponseEntity<HttpResponse> responseResponseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        try {
-            feesStructureService.payment(dto);
-            responseResponseEntity = new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return responseResponseEntity;
-    }
+//    @PostMapping("/payment")
+//    @PreAuthorize("hasAuthority('ROLE_STUDENT')")
+//    public ResponseEntity<HttpResponse> payment(@RequestBody PaymentDto dto) {
+//        ResponseEntity<HttpResponse> responseResponseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        try {
+//            feesStructureService.payment(dto);
+//            responseResponseEntity = new ResponseEntity<>(HttpStatus.OK);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return responseResponseEntity;
+//    }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HttpResponse> update(@RequestBody FeesStructureDto dto, @PathVariable("id") Long id) {
+    public ResponseEntity<?> update(@RequestBody FeesStructureDto dto, @PathVariable("id") Long id) {
         return feesStructureService.update(id, dto);
     }
 }

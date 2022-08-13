@@ -2,6 +2,7 @@ package com.example.CollegeManagement.Service;
 
 import com.example.CollegeManagement.Dto.Message;
 import com.example.CollegeManagement.Entity.Accountant;
+import com.example.CollegeManagement.Entity.Student;
 import com.example.CollegeManagement.Repository.AccountantRepository;
 import com.example.CollegeManagement.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,13 @@ public class AccountantServiceImpl implements AccountantService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Accountant accountant = accountantRepository.findByEmail(email);
+        Student student = studentRepository.findByEmail(email);
+        if (accountant == null && student != null) {
+            accountant = new Accountant();
+            accountant.setEmail(student.getEmail());
+            accountant.setPassword(student.getPassword());
+            accountant.setRole(student.getRole());
+        }
         if (accountant == null) throw new UsernameNotFoundException("Accountant Not Found ");
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(accountant.getRole()));

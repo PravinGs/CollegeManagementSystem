@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
+@SuppressWarnings("com.haulmont.jpb.LombokDataInspection")
 @Entity
 @Data
 @AllArgsConstructor
@@ -15,13 +16,11 @@ public class FeesStructure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Float tuitionFees;
-    private Float hostelFees;
-    private Float otherFees;
-    private boolean scholarShip;
-    private Float scholarShipFees;
-    private Float totalFees;
-    @OneToOne
+    private Float tuitionFees = 0f;
+    private Float hostelFees = 0f;
+    private Float otherFees = 0f;
+    private Float totalFees = 0f;
+    @ManyToOne
     @JoinColumn(
             name = "student_id",
             nullable = false,

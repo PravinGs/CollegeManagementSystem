@@ -6,10 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@SuppressWarnings("ALL")
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"streamId"})
+)
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

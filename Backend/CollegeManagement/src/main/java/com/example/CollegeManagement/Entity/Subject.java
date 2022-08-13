@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@SuppressWarnings("com.haulmont.jpb.LombokDataInspection")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,6 +1,7 @@
 package com.example.CollegeManagement.Service;
 
 import com.example.CollegeManagement.Dto.ExamDto;
+import com.example.CollegeManagement.Dto.MarkDto;
 import com.example.CollegeManagement.Dto.SubjectDto;
 import com.example.CollegeManagement.Entity.Exam;
 import com.example.CollegeManagement.Entity.Subject;
@@ -24,4 +25,5 @@ public interface StaffService {
 
     List<String> getAllStudentsByStream(String streamId);
 
+    ResponseEntity<?> addMark(MarkDto dto);
 }
